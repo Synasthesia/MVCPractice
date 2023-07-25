@@ -1,34 +1,34 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using MVCPractice.Data;
 using MVCPractice.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace MVCPractice.Controllers
 {
-    public class RecipeController : Controller
+    public class AuthorController : Controller
     {
         private readonly RecipeManagementContext _context;
 
-        public RecipeController(RecipeManagementContext context)
+        public AuthorController(RecipeManagementContext context)
         {
             _context = context;
         }
         //GET RECIPE controller
         public IActionResult Index()
         {
-            List<RecipeModel> recipes = _context.Recipes.Include(a => a.Author).ToList();
-            return View(recipes);
+            List<AuthorModel> authors = _context.Authors.ToList();
+            return View(authors);
         }
         //GET recipe/Details/{id}
         public IActionResult Details(int id)
         {
-            RecipeModel recipe = _context.Recipes.Include(a => a.Author).FirstOrDefault(r => r.Id == id);
-            
-            if (recipe == null)
+            AuthorModel author = _context.Authors.Find(id);
+
+            if (author == null)
             {
                 return NotFound();
             }
-            return View(recipe);
+            return View(author);
         }
         //GET recipe/Create
         public IActionResult Create()
@@ -37,15 +37,15 @@ namespace MVCPractice.Controllers
         }
         //POST recipe/Create
         [HttpPost]
-        public IActionResult Create(RecipeModel recipe)
+        public IActionResult Create(AuthorModel author)
         {
             if (ModelState.IsValid) //Checks to make sure [Required] [StringLength(50)] are all valid in input
             {
-                _context.Recipes.Add(recipe); //Add to db what the user entered
+                _context.Authors.Add(author); //Add to db what the user entered
                 _context.SaveChanges(); //Update the database
                 return RedirectToAction("Index"); //Clicking create will send you back to the list of recipes
             }
-            return View(recipe);
+            return View(author);
         }
         public IActionResult Edit(int id)
         {
@@ -53,35 +53,35 @@ namespace MVCPractice.Controllers
         }
         //PUSH recipe/edit/{id}
         [HttpPost]
-        public IActionResult Edit(int id, RecipeModel recipe)
+        public IActionResult Edit(int id, AuthorModel author)
         {
             if (ModelState.IsValid)
             {
-                _context.Entry(recipe).State = EntityState.Modified;
+                _context.Entry(author).State = EntityState.Modified;
             }
             return View();
         }
 
         //DELETE recipe/delete/{id}
-        
+
         public IActionResult Delete(int id)
         {
-            RecipeModel recipe = _context.Recipes.FirstOrDefault(r => r.Id == id);
-            if (recipe == null)
+            AuthorModel author = _context.Authors.FirstOrDefault(a => a.Id == id);
+            if (author == null)
             {
                 return NotFound();
             }
-            return View(recipe);
+            return View(author);
         }
         [HttpPost]
         public IActionResult Delete(int? id)
         {
-            if (_context.Recipes == null)
+            if (_context.Authors == null)
             {
-                return Problem("Recipe is null");
+                return Problem("Author is null");
             }
-            RecipeModel recipe = _context.Recipes.Find(id);
-            _context.Recipes.Remove(recipe);
+            AuthorModel author = _context.Authors.Find(id);
+            _context.Authors.Remove(author);
             _context.SaveChanges();
             return RedirectToAction("Index");
         }

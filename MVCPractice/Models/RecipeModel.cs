@@ -11,9 +11,9 @@ namespace MVCPractice.Models
         public int CookTime { get; set; }
         public string Description { get; set; } = null!;
 
-        //[ForeignKey("AuthorId")]
-        //public int AuthorId { get; set; }
-        //public virtual AuthorModel Author { get; set; }
+        [ForeignKey("AuthorId")]
+        public int AuthorId { get; set; }
+        public virtual AuthorModel Author { get; set; }
         //public virtual List<RecipeIngredientModel> Recipes { get; set; }
     }
 }

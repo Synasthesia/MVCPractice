@@ -4,6 +4,7 @@ using MVCPractice.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MVCPractice.Migrations
 {
     [DbContext(typeof(RecipeManagementContext))]
-    partial class RecipeManagementContextModelSnapshot : ModelSnapshot
+    [Migration("20230724184919_AddAuthors")]
+    partial class AddAuthors
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -57,68 +60,8 @@ namespace MVCPractice.Migrations
                         {
                             Id = 2,
                             Bio = "Develops recipes professionally, as well as having an extensive cooking history; from attending school to becoming an executive chef.",
-                            Email = "Tschul@heygrillhey.com",
+                            Email = "",
                             Name = "Taylor Shulman"
-                        });
-                });
-
-            modelBuilder.Entity("MVCPractice.Models.IngredientModel", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("RecipeId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RecipeId");
-
-                    b.ToTable("Ingredients");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "English Muffin",
-                            RecipeId = 1
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "Pepperoni",
-                            RecipeId = 1
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "Cheese",
-                            RecipeId = 1
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Name = "Banana Pepper",
-                            RecipeId = 1
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Name = "Pizza Sauce",
-                            RecipeId = 1
-                        },
-                        new
-                        {
-                            Id = 6,
-                            Name = "Olive Oil",
-                            RecipeId = 1
                         });
                 });
 
@@ -129,9 +72,6 @@ namespace MVCPractice.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"));
-
-                    b.Property<int>("AuthorId")
-                        .HasColumnType("int");
 
                     b.Property<int>("CookTime")
                         .HasColumnType("int");
@@ -145,15 +85,12 @@ namespace MVCPractice.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AuthorId");
-
                     b.ToTable("Recipes");
 
                     b.HasData(
                         new
                         {
                             Id = 1,
-                            AuthorId = 1,
                             CookTime = 15,
                             Description = "Easy english muffin pizzas that are quick and simple to make. Perfect for a quick lunch.",
                             Name = "English Muffin Pizza"
@@ -161,33 +98,10 @@ namespace MVCPractice.Migrations
                         new
                         {
                             Id = 2,
-                            AuthorId = 2,
                             CookTime = 900,
                             Description = "Iconic Texas Style brisket. Now yours in only 15 hours!",
                             Name = "Texas Style Smoked Beef Brisket"
                         });
-                });
-
-            modelBuilder.Entity("MVCPractice.Models.IngredientModel", b =>
-                {
-                    b.HasOne("MVCPractice.Models.RecipeModel", "Recipe")
-                        .WithMany()
-                        .HasForeignKey("RecipeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Recipe");
-                });
-
-            modelBuilder.Entity("MVCPractice.Models.RecipeModel", b =>
-                {
-                    b.HasOne("MVCPractice.Models.AuthorModel", "Author")
-                        .WithMany()
-                        .HasForeignKey("AuthorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Author");
                 });
 #pragma warning restore 612, 618
         }

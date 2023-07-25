@@ -1,10 +1,10 @@
-﻿@model IEnumerable<MVCPractice.Models.RecipeModel>
+﻿@model IEnumerable<MVCPractice.Models.AuthorModel>
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>List of Recipes</h1>
+<h1>List of Authors</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -16,13 +16,10 @@
                 @Html.DisplayNameFor(model => model.Name)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CookTime)
+                @Html.DisplayNameFor(model => model.Bio)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Author)
+                @Html.DisplayNameFor(model => model.Email)
             </th>
             <th></th>
         </tr>
@@ -34,13 +31,10 @@
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.CookTime)
+                @Html.DisplayFor(modelItem => item.Bio)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Author.Name)
+                @Html.DisplayFor(modelItem => item.Email)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
